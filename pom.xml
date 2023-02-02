@@ -24,7 +24,7 @@
 
 
     <properties>
-        <revision>0.1</revision>
+        <revision>0.0.1-SNAPSHOT</revision>
         <java.version>17</java.version>
         <git.commit.plugin>4.9.9</git.commit.plugin>
         <reactor.version>Dysprosium-SR20</reactor.version>
@@ -33,6 +33,12 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-core</artifactId>
+                <version>3.8.3</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -73,6 +79,18 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>rdc-releases</id>
+            <name>rdc-releases</name>
+            <url>https://packages.aliyun.com/maven/repository/2007949-release-nkevPX/</url>
+        </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <name>rdc-snapshots</name>
+            <url>https://packages.aliyun.com/maven/repository/2007949-snapshot-FTKR5c/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 
     <build>
@@ -101,6 +119,32 @@
                         <includeOnlyProperty>^git.commit.(id|message|time).*$</includeOnlyProperty>
                     </includeOnlyProperties>
                 </configuration>
+            </plugin>
+            <!--mvn版本管理插件-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
 
